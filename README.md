@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌳 Premium Family Tree (Silsilah Keluarga)
 
-## Getting Started
+A modern, interactive, and intelligent family tree web application built for seamless visualization and data management. Designed as a high-value software product, this application automatically calculates family relationships, organizes complex tree layouts, and provides a secure admin dashboard.
 
-First, run the development server:
+---
+
+## ✨ Key Features
+
+- **🧠 Smart Relation Engine:** Automatically calculates and labels relationships (e.g., Uncle, Great-Grandfather, Daughter-in-law) dynamically based on the selected "Root Person".
+- **🕸️ Interactive Canvas:** Powered by React Flow with an auto-layout algorithm (Dagre) to ensure the family tree is always organized, no matter how complex the data gets.
+- **📸 Ultra-HD PNG Export:** One-click export to download the entire family tree seamlessly without cropping, complete with a clean UI (hiding controls).
+- **🔒 Secure Admin Panel:** Built-in authentication using Next.js Middleware and `bcrypt` password hashing to protect family data from unauthorized access.
+- **⚡ Dynamic CRUD:** Full control to Add, Edit, and Delete family members with beautiful Custom Modals and real-time Toast notifications.
+- **🎨 Premium UI/UX:** Styled with Tailwind CSS, featuring smooth transitions, a beautiful "Ocean Wave" background, and responsive design.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js 14/15](https://nextjs.org/) (App Router, Server Actions)
+- **Database:** [Supabase](https://supabase.com/) (PostgreSQL)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Visualization:** [React Flow](https://reactflow.dev/) (`@xyflow/react`)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Utilities:** `html-to-image` (Export), `react-hot-toast` (Notifications), `bcryptjs` (Auth)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up the project locally on your machine.
+
+### 1. Prerequisites
+
+- Node.js (v18 or higher)
+- A [Supabase](https://supabase.com/) account (or any PostgreSQL database)
+
+### 2. Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone [https://github.com/Azizsige/next-family-tree.git](https://github.com/Azizsige/next-family-tree.git)
+cd next-family-tree
+npm install
+```
+
+### 3. Environment Variables
+
+Create a .env file in the root directory and add your Supabase connection string:
+
+# Connect to Supabase via connection pooling with Supavisor.
+
+DATABASE_URL="postgresql://postgres.[YOUR-PROJECT-REF]:[YOUR-PASSWORD]@[aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true](https://aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true)"
+
+# Direct connection to the database. Used for migrations.
+
+DIRECT_URL="postgresql://postgres.[YOUR-PROJECT-REF]:[YOUR-PASSWORD]@[aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres](https://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres)"
+
+### 4. Database Setup
+
+Push the Prisma schema to your database and generate the Prisma Client:
+
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+### 5. Run the Development Server
+
+Start the application locally:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Admin Authentication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To access the /admin dashboard, you need an initial admin account.
 
-## Learn More
+If you are running this for the first time, click the "🛠️ Inject Akun Admin" button at the bottom of the /login page to seed the initial credentials:
 
-To learn more about Next.js, take a look at the following resources:
+Email: admin@admin.com
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Password: admin123
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+(Note: Remember to remove the inject button in the app/login/page.tsx file before deploying to production!)
 
-## Deploy on Vercel
+## 📦 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This Next.js app is optimized for deployment on Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Push your code to GitHub.
+
+Import the project into Vercel.
+
+Add your DATABASE_URL and DIRECT_URL to Vercel's Environment Variables.
+
+Deploy!
