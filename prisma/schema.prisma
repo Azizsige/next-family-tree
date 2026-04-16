@@ -1,0 +1,38 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model FamilyMember {
+  id        String    @id @default(uuid())
+  name      String
+  birthDate DateTime?
+  deathDate DateTime?
+  photoUrl  String?   
+  bio       String?   @db.Text
+  gender    String    // L / P
+  
+  spouseId  String?   @unique
+  spouse    FamilyMember?  @relation("Marriage", fields: [spouseId], references: [id])
+  spouseOf  FamilyMember?  @relation("Marriage")
+
+  fatherId  String?
+  motherId  String?
+  father    FamilyMember?  @relation("FatherTree", fields: [fatherId], references: [id])
+  mother    FamilyMember?  @relation("MotherTree", fields: [motherId], references: [id])
+
+  childrenAsFather FamilyMember[] @relation("FatherTree")
+  childrenAsMother FamilyMember[] @relation("MotherTree")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+}
