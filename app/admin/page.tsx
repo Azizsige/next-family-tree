@@ -49,6 +49,20 @@ export default async function AdminPage({
                 🧪 Inject Dummy Data
               </button>
             </form>
+            <form
+              action={async () => {
+                "use server";
+                const { logout } = await import("@/app/actions/auth");
+                await logout();
+              }}
+            >
+              <button
+                type="submit"
+                className="text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 px-4 py-2 rounded-xl border border-red-100 transition-colors"
+              >
+                Keluar (Logout)
+              </button>
+            </form>
             <div className="mt-4 md:mt-0 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold border border-blue-100">
               Total: {familyMember?.length || 0} Data
             </div>

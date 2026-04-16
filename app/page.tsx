@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ReactFlow, Background, Controls } from "@xyflow/react";
+import {
+  ReactFlow,
+  Background,
+  Controls,
+  ReactFlowProvider,
+  BackgroundVariant,
+} from "@xyflow/react";
+import DownloadBtn from "@/app/components/DownloadBtn";
 import "@xyflow/react/dist/style.css";
 import Link from "next/link";
 
@@ -105,100 +112,125 @@ export default function FamilyTreePage() {
     );
 
   return (
-    <div className="h-screen w-full bg-slate-50 relative overflow-hidden">
-      {/* Tombol Kelola Data (Kanan Atas) */}
-      <div className="absolute top-6 right-6 z-10">
-        <Link
-          href="/admin"
-          className="bg-white/80 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-300 font-semibold py-2.5 px-4 rounded-xl shadow-sm transition-all flex items-center gap-2 text-sm"
-        >
+    <ReactFlowProvider>
+      {/* WRAPPER UTAMA DENGAN GRADASI BIRU SOFT */}
+      <div className="h-screen w-full bg-gradient-to-b from-slate-50 to-blue-50/60 relative overflow-hidden">
+        {/* EFEK GELOMBANG (WAVE) DI BAGIAN BAWAH */}
+        <div className="absolute bottom-0 left-0 w-full z-0 opacity-40 pointer-events-none">
           <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+            viewBox="0 0 1440 320"
+            className="w-full h-auto text-blue-200"
+            fill="currentColor"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-            ></path>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            ></path>
+            <path d="M0,160L48,170.7C96,181,192,203,288,197.3C384,192,480,160,576,149.3C672,139,768,149,864,170.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
           </svg>
-          Kelola Data
-        </Link>
-      </div>
+        </div>
 
-      {/* Canvas Pohon */}
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        onNodeClick={onNodeClick}
-        fitView
-        nodesConnectable={false}
-        nodesDraggable={true}
-      >
-        <Background color="#cbd5e1" gap={20} />
-        <Controls />
-      </ReactFlow>
-
-      {/* Header Info Kiri Atas + Dropdown Tokoh Utama */}
-      <div className="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-slate-200 shadow-sm max-w-xs">
-        <h1 className="text-xl font-extrabold text-slate-800 tracking-tight">
-          Pohon Silsilah
-        </h1>
-
-        <div className="mt-4 space-y-1.5 border-t border-slate-200 pt-3">
-          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        {/* KONTEN UTAMA (DI ATAS GELOMBANG) */}
+        <div className="absolute inset-0 z-10">
+          {/* Tombol Kanan Atas */}
+          <div className="absolute top-6 right-6 z-10 flex items-center gap-3">
+            <DownloadBtn />
+            <Link
+              href="/admin"
+              className="bg-white/80 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-300 font-semibold py-2.5 px-4 rounded-xl shadow-sm transition-all flex items-center gap-2 text-sm"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              ></path>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              ></path>
-            </svg>
-            Pusat Relasi
-          </label>
-          <select
-            value={rootPersonId}
-            onChange={(e) => setRootPersonId(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-300 text-slate-800 font-medium text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-2.5 shadow-sm outline-none cursor-pointer transition-all"
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                ></path>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+              </svg>
+              Kelola Data
+            </Link>
+          </div>
+
+          {/* Canvas Pohon */}
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            onNodeClick={onNodeClick}
+            fitView
+            nodesConnectable={false}
+            nodesDraggable={true}
           >
-            {rawMembers.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.name}
-              </option>
-            ))}
-          </select>
+            {/* Background Titik-Titik Transparan */}
+            <Background
+              color="#94a3b8"
+              gap={24}
+              size={1.5}
+              variant={BackgroundVariant.Dots}
+              className="opacity-40"
+            />
+            <Controls />
+          </ReactFlow>
+
+          {/* Header Info Kiri Atas + Dropdown Tokoh Utama */}
+          <div className="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-slate-200 shadow-sm max-w-xs">
+            <h1 className="text-xl font-extrabold text-slate-800 tracking-tight">
+              Pohon Silsilah
+            </h1>
+
+            <div className="mt-4 space-y-1.5 border-t border-slate-200 pt-3">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  ></path>
+                </svg>
+                Pusat Relasi
+              </label>
+              <select
+                value={rootPersonId}
+                onChange={(e) => setRootPersonId(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 text-slate-800 font-medium text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-2.5 shadow-sm outline-none cursor-pointer transition-all"
+              >
+                {rawMembers.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Modal Detail */}
+          <FamilyDetailModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            member={selectedMember}
+            allMembers={rawMembers}
+          />
         </div>
       </div>
-
-      {/* Modal Detail */}
-      <FamilyDetailModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        member={selectedMember}
-        allMembers={rawMembers}
-      />
-    </div>
+    </ReactFlowProvider>
   );
 }
